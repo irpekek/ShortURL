@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: .
+    networks:
+      - back-tier
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - MONGO_URI=mongodb://db:27017/shorturl
+
+  db:
+    image: mongo:latest
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - back-tier
+
+volumes:
+  mongodb_data:
+
+networks:
+  back-tier:
+  
